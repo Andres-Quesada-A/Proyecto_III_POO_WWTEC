@@ -8,6 +8,12 @@ package PantallaConfiguracion;
 import ConfiguracionEjercito.ControladorEjercitoConfiguracion;
 import ConfiguracionEjercito.ModeloEjercitoConfiguracion;
 import ConfiguracionEjercito.VistaEjercitoConfiguracion;
+import ConfiguracionPueblo.ControladorPuebloConfiguracion;
+import ConfiguracionPueblo.ModeloPuebloConfiguracion;
+import ConfiguracionPueblo.VistaPuebloConfiguracion;
+import InicioSesion.ControladorInicio;
+import InicioSesion.ModeloInicio;
+import InicioSesion.VistaInicio;
 
 /**
  *
@@ -38,6 +44,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnConfigEjercito = new javax.swing.JButton();
         btnConfigPueblo = new javax.swing.JButton();
+        btnRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,6 +69,14 @@ public class ConfigurationWindow extends javax.swing.JFrame {
             }
         });
 
+        btnRegresar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnRegresar.setText("Regresar Inicio Sesión");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,7 +90,9 @@ public class ConfigurationWindow extends javax.swing.JFrame {
                         .addGap(64, 64, 64)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnConfigEjercito)
-                            .addComponent(btnConfigPueblo))))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnRegresar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnConfigPueblo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -83,11 +100,13 @@ public class ConfigurationWindow extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(54, 54, 54)
+                .addGap(31, 31, 31)
                 .addComponent(btnConfigEjercito)
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addComponent(btnConfigPueblo)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnRegresar)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -112,8 +131,19 @@ public class ConfigurationWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConfigEjercitoActionPerformed
 
     private void btnConfigPuebloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigPuebloActionPerformed
-        
+        VistaPuebloConfiguracion vista = new VistaPuebloConfiguracion();
+        ModeloPuebloConfiguracion modelo = new ModeloPuebloConfiguracion();
+        ControladorPuebloConfiguracion controller = new ControladorPuebloConfiguracion(modelo, vista);
+        controller.ShowView();
     }//GEN-LAST:event_btnConfigPuebloActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        VistaInicio vista = new VistaInicio();
+        ModeloInicio modelo = new ModeloInicio();
+        ControladorInicio controller = new ControladorInicio(vista, modelo);
+        controller.ShowView();
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,6 +183,7 @@ public class ConfigurationWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfigEjercito;
     private javax.swing.JButton btnConfigPueblo;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

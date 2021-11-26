@@ -5,6 +5,10 @@
  */
 package ConfiguracionEjercito;
 
+import Ejercito.Ejercito;
+import EquipoEjercito.EquipoEjercito;
+import FactoryEjercito.FactoryEjercito;
+import FilesManagers.Serealizar_Deserializar_Objeto;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
@@ -14,11 +18,13 @@ import javax.swing.ImageIcon;
  */
 public class ModeloEjercitoConfiguracion {
     //Utiliado para las imagenes que dan una representación gráfica de los tipos de puestos en el ejercito
-    private ArrayList<ImageIcon> imagenes = new ArrayList<ImageIcon>(); 
+    private ArrayList<ImageIcon> imagenes = new ArrayList<ImageIcon>();
+    private EquipoEjercito Integrantes;
 
     //Constructor
     public ModeloEjercitoConfiguracion() {
         CargarIconos();
+        this.Integrantes = new EquipoEjercito();
     }
     
     //Metodos
@@ -47,5 +53,64 @@ public class ModeloEjercitoConfiguracion {
             return imagenes.get(4);
         }
         return imagenes.get(0);
+    }
+    
+    /*tipo, Nombre, Arma, {vida, cantidadGolpes, nivel, Campos, NivelAparicion, costo, fuerza, limite};*/
+    public void CrearMiembro(String tipo, String nombre, String arma, int[] datos){
+        Ejercito nuevo;
+        if (tipo.equalsIgnoreCase("Soldados de contacto")){
+            nuevo = FactoryEjercito.CrearSoldado(FactoryEjercito.Soldados.SOLDADOCONTACTO, nombre, arma, datos);
+            Integrantes.insertarMiembro(nuevo);
+        }else if (tipo.equalsIgnoreCase("Alcance medio")){
+            nuevo = FactoryEjercito.CrearSoldado(FactoryEjercito.Soldados.ALCANCEMEDIO, nombre, arma, datos);
+            Integrantes.insertarMiembro(nuevo);
+        }else if (tipo.equalsIgnoreCase("Aéreos")){
+            nuevo = FactoryEjercito.CrearSoldado(FactoryEjercito.Soldados.AEREOS, nombre, arma, datos);
+            Integrantes.insertarMiembro(nuevo);
+        }else if (tipo.equalsIgnoreCase("Choque")){
+            nuevo = FactoryEjercito.CrearSoldado(FactoryEjercito.Soldados.CHOQUE, nombre, arma, datos);
+            Integrantes.insertarMiembro(nuevo);
+        }else if (tipo.equalsIgnoreCase("Impacto")){
+            nuevo = FactoryEjercito.CrearSoldado(FactoryEjercito.Soldados.IMPACTO, nombre, arma, datos);
+            Integrantes.insertarMiembro(nuevo);
+        }
+    }
+    
+    //Manda a guardar los objetos creados en el archivo serializable
+    public void guardarEnSerializable(){
+        Serealizar_Deserializar_Objeto.serializarObjeto("Ejercito.Dat", Integrantes);
+    }
+    
+    //Si hay objetso guardados en el archivo serializable... los carga que se puedan editar en la ventana de configuracion
+    public boolean DeserealizarObjeto(){
+        EquipoEjercito recuperado = Serealizar_Deserializar_Objeto.deserializarObjeto("Ejercito.Dat", EquipoEjercito.class);
+        if (recuperado == null){
+            System.out.println("Los recursos recuperados son nulos");
+            return false;
+        }else{
+            System.out.println("Si existen recursos");
+            for (int i = 0; i < recuperado.getLegthArray(); i++){
+                Integrantes.insertarMiembro(recuperado.GetUsuario(i));
+            }
+            return true;
+        }
+    }
+    
+    public int getSizeEquipo(){
+        return Integrantes.getLegthArray();
+    }
+    
+    public Ejercito ObtenerSoldados(int index){
+        return Integrantes.GetUsuario(index);
+    }
+    
+    //Actualiza los datos de un soldado ya creado
+    public void ActualizarDatos(int index, String tipo, String nombre, String arma, int[] atributos){
+        Integrantes.ActualizarDatos(index, tipo, nombre, arma, atributos);
+    }
+    
+    //Elimina el soldado que pertenezca al indice que se pasa por parametro
+    public void EliminarSoldado(int index){
+        Integrantes.EliminarSoldado(index);
     }
 }

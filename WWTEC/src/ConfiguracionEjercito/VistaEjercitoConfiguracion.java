@@ -7,6 +7,7 @@ package ConfiguracionEjercito;
 
 import FondoVentana.FondoPanel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,12 +21,26 @@ public class VistaEjercitoConfiguracion extends javax.swing.JFrame {
     private FondoPanel fondo = new FondoPanel("/ConfiguracionEjercito/Imagenes/FondoConfig.jpg");
     private JLabel[] labels = new JLabel[10]; //Es utilizado para los titulos de los campos de texto
     public JLabel Imagenes = new JLabel(); //Utilizado para dar una representación gráfica del tipo de soldado
+    public JButton GuardarCambios = new JButton("Guardar Cambios");
+    public JButton Eliminar =  new JButton("Eliminar");
     
     //CONSTRUCTOR
     public VistaEjercitoConfiguracion() {
         this.setContentPane(fondo);
         initComponents();
+        crearBoton();
         CrearLabels();
+    }
+    
+    //Se crean los botones de guardar cambios y eliminar... se hace por código debido a que se desacomoda
+    //desde la ventana de diseño
+    private void crearBoton(){
+        this.jPanel1.add(GuardarCambios);
+        GuardarCambios.setBounds(648, 475, 185, 35);
+        GuardarCambios.setFont(new java.awt.Font("Tahoma MS", 0, 18));
+        this.jPanel1.add(Eliminar);
+        Eliminar.setBounds(505, 475, 100, 35);
+        Eliminar.setFont(new java.awt.Font("Tahoma MS", 0, 18));
     }
     
     /*Se crean los titulos de todos los datos necesarios para crear un miembro del ejercito*/
@@ -121,8 +136,20 @@ public class VistaEjercitoConfiguracion extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, error, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
+    public void setMensaje(String error){
+        JOptionPane.showMessageDialog(this, error, "Informativo", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
     public void SetIcone(ImageIcon icon){
         this.Imagenes.setIcon(icon);
+    }
+    
+    public void SetItemVariable(String item){
+        this.CmbxSoldados.addItem(item);
+    }
+    
+    public String getCmbxSoldados() {
+        return CmbxSoldados.getSelectedItem().toString();
     }
     
     /**
@@ -149,6 +176,8 @@ public class VistaEjercitoConfiguracion extends javax.swing.JFrame {
         txfCampos = new javax.swing.JTextField();
         btnRegresar = new javax.swing.JButton();
         cmbxArma = new javax.swing.JComboBox<>();
+        btnEditar = new javax.swing.JButton();
+        CmbxSoldados = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -187,14 +216,15 @@ public class VistaEjercitoConfiguracion extends javax.swing.JFrame {
         cmbxArma.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cmbxArma.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Espadas", "Navajas", "Cuchillos", "Manos", "Flechas", "Pistola", "Fusiles", "Rifles", "Metralleta", "Bombas", "Misiles", "Golpes (vehículos)", "Proyectil" }));
 
+        btnEditar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnEditar.setText("Editar");
+
+        CmbxSoldados.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(227, 227, 227)
-                .addComponent(lblTitulo)
-                .addGap(35, 260, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(281, 281, 281)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -207,22 +237,31 @@ public class VistaEjercitoConfiguracion extends javax.swing.JFrame {
                         .addComponent(txfNivelAparicion)
                         .addComponent(txfCosto)
                         .addComponent(txfCampos, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addComponent(txfFuerzaGolpe, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbxArma, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnRegresar)
-                .addGap(34, 34, 34)
-                .addComponent(btnClear)
-                .addGap(29, 29, 29)
-                .addComponent(btnCrear)
-                .addGap(49, 49, 49))
+                    .addComponent(txfFuerzaGolpe, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbxArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnRegresar)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnClear))
+                    .addComponent(CmbxSoldados, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCrear)
+                    .addComponent(btnEditar))
+                .addGap(45, 45, 45))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(227, 227, 227)
+                .addComponent(lblTitulo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(cmbxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,21 +275,25 @@ public class VistaEjercitoConfiguracion extends javax.swing.JFrame {
                 .addComponent(txfCampos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txfNivelAparicion, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txfCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(63, 63, 63)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CmbxSoldados))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCrear)
                             .addComponent(btnClear)
                             .addComponent(btnRegresar)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
+                        .addComponent(txfCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(txfFuerzaGolpe, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cmbxArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(41, 41, 41))
+                .addGap(35, 35, 35))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -303,10 +346,12 @@ public class VistaEjercitoConfiguracion extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JComboBox<String> CmbxSoldados;
     public javax.swing.JButton btnClear;
     public javax.swing.JButton btnCrear;
+    public javax.swing.JButton btnEditar;
     public javax.swing.JButton btnRegresar;
-    private javax.swing.JComboBox<String> cmbxArma;
+    public javax.swing.JComboBox<String> cmbxArma;
     public javax.swing.JComboBox<String> cmbxTipo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblTitulo;

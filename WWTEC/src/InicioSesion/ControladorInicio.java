@@ -5,6 +5,9 @@
  */
 package InicioSesion;
 
+import PreJuego.ControladorElegirEjercito;
+import PreJuego.ModeloElegirEjercito;
+import PreJuego.VistaElegirEjercito;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -76,7 +79,7 @@ public class ControladorInicio implements ActionListener{
                 if (this.modelo.VerificarAdmin(vista.GetUsuario(), vista.GetContraseña())){
                     IniciarComoAdmin();
                 }else if (this.modelo.VerificarUsuario(vista.GetUsuario(), vista.GetContraseña())){
-                    IniciarComoJgador();
+                    IniciarComoJgador(vista.GetUsuario(), vista.GetContraseña());
                 }else{
                     this.vista.SetMensajeError("Los datos ingresados son incorrectos");
                 }
@@ -95,6 +98,7 @@ public class ControladorInicio implements ActionListener{
             if (validarFormatoContraseña()){
                 if (this.modelo.VerificarNombreUsuario(vista.GetUsuario())){
                     this.modelo.AlmacenarUsuario(vista.GetUsuario(), vista.GetContraseña());
+                    this.modelo.CrearArchivo(vista.GetUsuario(), vista.GetContraseña());
                     this.vista.SetMensaje("El usuario ha sido registrado");
                 }else{
                     this.vista.SetMensajeError("El nombre de usuario ya se encuentra registrado");
@@ -114,8 +118,12 @@ public class ControladorInicio implements ActionListener{
     }
     
     //lleva al juego 
-    private void IniciarComoJgador(){
-        System.out.println("Iniciar como jugador");
+    private void IniciarComoJgador(String user, String password){
+        this.modelo.ActualizarConfiguraciones(vista.GetUsuario(), vista.GetContraseña());
+        VistaElegirEjercito vista = new VistaElegirEjercito();
+        ModeloElegirEjercito modelo = new ModeloElegirEjercito(user, password);
+        ControladorElegirEjercito controller = new ControladorElegirEjercito(modelo, vista);
+        controller.ShowView();
     }
     
     @Override

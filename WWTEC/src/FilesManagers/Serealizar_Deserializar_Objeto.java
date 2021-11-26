@@ -18,18 +18,20 @@ public class Serealizar_Deserializar_Objeto {
             salida.writeObject(objeto);
             sw = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("No se puede serializar el objeto");
         }
         return sw;
     }
 
     public static <E> E deserializarObjeto(String direccionArchivo, Class<E> claseObjetivo) {
         E objeto = null;
+        System.out.println("Direccion: " + direccionArchivo);
         try (FileInputStream fis = new FileInputStream(direccionArchivo);
-                ObjectInputStream entrada = new ObjectInputStream(fis);) {
+            ObjectInputStream entrada = new ObjectInputStream(fis);) {
+            System.out.println("Reconoció el archivo");
             objeto = (E) entrada.readObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("No se puede deserializar el objeto");
         }
         return objeto;
     }

@@ -5,7 +5,18 @@
  */
 package InicioSesion;
 
+import Defensa.AereosD;
+import Defensa.Bombas;
+import Defensa.Cañon;
+import Defensa.Edificio;
+import Defensa.Mortero;
+import Defensa.Muro;
+import Defensa.Pueblo;
+import Defensa.Torre;
+import EquipoEjercito.EquipoEjercito;
 import FilesManagers.FileManager;
+import FilesManagers.Serealizar_Deserializar_Objeto;
+import JuegoUsuario.JuegoUsuario;
 import PantallaConfiguracion.ConfigurationWindow;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -56,7 +67,7 @@ public class ModeloInicio {
     
     //Almacena un nuevo usuario con su debido nombre o ID y contraseña para poder ingresar al sistema
     public void AlmacenarUsuario(String usuario, String contraseña){
-        data.writeToFile(Path, usuario + ", " + contraseña);
+        data.writeToFile(Path, usuario + ", " + contraseña + "\n");
     }
     
     
@@ -105,5 +116,34 @@ public class ModeloInicio {
     public void VentanaDeConfiguracion(){
         ConfigurationWindow configWindow = new ConfigurationWindow();
         configWindow.setVisible(true);
+    }
+    
+    public void CrearArchivo(String user, String password){
+        String PathTemp = user + "_" + password + ".dat";
+        FileManager file = new FileManager();
+        file.createFile(PathTemp);
+        EquipoEjercito recuperado = Serealizar_Deserializar_Objeto.deserializarObjeto("Ejercito.Dat", EquipoEjercito.class);
+        JuegoUsuario juegoUsuario = new JuegoUsuario();
+        juegoUsuario.setEjercito(recuperado);
+        
+        Pueblo pueblo = Serealizar_Deserializar_Objeto.deserializarObjeto("Pueblo.dat", Pueblo.class);
+        juegoUsuario.sustituirPueblo(pueblo);
+//        
+        Serealizar_Deserializar_Objeto.serializarObjeto(PathTemp,juegoUsuario);
+    }
+    
+    public void ActualizarConfiguraciones(String user, String password){
+        String PathTemp = user + "_" + password + ".dat";
+        //Obtiene el juego del usuario actual
+        JuegoUsuario recuperado = Serealizar_Deserializar_Objeto.deserializarObjeto(PathTemp, JuegoUsuario.class);
+        //Obtiene la configuracion del ejercito
+        EquipoEjercito equipoRecuperado = Serealizar_Deserializar_Objeto.deserializarObjeto("Ejercito.Dat", EquipoEjercito.class);
+        recuperado.sustituirEjercito(equipoRecuperado);
+        //Obtiene la configuracion de los elementos del pueblo
+        Pueblo pueblo = Serealizar_Deserializar_Objeto.deserializarObjeto("Pueblo.dat", Pueblo.class);
+        recuperado.sustituirPueblo(pueblo);
+        //Guarda nueva mente el archivo
+        Serealizar_Deserializar_Objeto.serializarObjeto(PathTemp, recuperado);
+        
     }
 }
