@@ -6,6 +6,7 @@
 package PreJuego;
 
 import Ejercito.Ejercito;
+import Progreso.VistaProgreso;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -18,12 +19,14 @@ public class ControladorElegirEjercito implements ActionListener{
     private ModeloElegirEjercito modelo;
     private VistaElegirEjercito vista;
     private int indice = 0;
+    private int Campos = 0;
 
     public ControladorElegirEjercito(ModeloElegirEjercito modelo, VistaElegirEjercito vista) {
         this.modelo = modelo;
         this.vista = vista;
         this.vista.setTextMoneta(Integer.toString(this.modelo.ObtenerDinero()));
         this.vista.setCampos(this.modelo.GetCampos());
+        this.Campos = Integer.parseInt(this.modelo.GetCampos());
         init();
     }
     
@@ -83,7 +86,12 @@ public class ControladorElegirEjercito implements ActionListener{
     }
     
     private void botonContinuarAction(){
-        //Va directo al juego
+        this.modelo.SerealizarObjeto();
+        String path =  this.modelo.getPATH();
+        String[] pathDividido = path.split("_");
+        VistaProgreso nuevaVentana = new VistaProgreso(pathDividido[0], pathDividido[1]);
+        nuevaVentana.setVisible(true);
+        this.vista.dispose();
     }
     
     //"Tipo de ataque", "Nombre","Vida","Cantidad de golpes /s","Nivel","Campos",
@@ -109,8 +117,9 @@ public class ControladorElegirEjercito implements ActionListener{
                     this.modelo.EstablecerDinero(this.modelo.ObtenerDinero() - datos[5]);
                     this.vista.setTextMoneta(Integer.toString(this.modelo.ObtenerDinero()));
                     /////////////////////////////////////////////////////////////////////////////////
-                    this.modelo.SetCampos(Integer.parseInt(this.modelo.GetCampos()) - datos[3]);
-                    this.vista.setCampos(this.modelo.GetCampos());
+                    //this.modelo.SetCampos(Integer.parseInt(this.modelo.GetCampos()) - datos[3]);
+                    this.Campos = Campos - datos[3];
+                    this.vista.setCampos(Integer.toString(this.Campos));
                 }else{
                     this.vista.setMensajeError("No tiene suficiente dinero");
                 }

@@ -15,8 +15,8 @@ import javax.swing.ImageIcon;
 public class Muro extends Defensa implements Serializable{
     private ImageIcon muro = new ImageIcon(getClass().getResource("/Defensa/Imagenes/Muro.jpg"));
 
-    public Muro(int nivel, int vida, String nameClass, int FrecDisparo) {
-        super(nivel, vida, nameClass, FrecDisparo);
+    public Muro(int nivel, int vida, String nameClass, int FrecDisparo, int fuerza) {
+        super(nivel, vida, nameClass, FrecDisparo, fuerza);
     }
 
     public ImageIcon getMuro() {

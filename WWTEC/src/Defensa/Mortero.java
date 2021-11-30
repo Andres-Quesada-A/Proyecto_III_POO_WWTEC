@@ -6,6 +6,7 @@
 package Defensa;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
@@ -13,14 +14,24 @@ import javax.swing.ImageIcon;
  * @author andre
  */
 public class Mortero extends Defensa implements Serializable{
-    private ImageIcon municion = new ImageIcon(getClass().getResource("/Defensa/Imagenes/Bala.png"));
+    private ArrayList<ImageIcon> municion = new ArrayList<ImageIcon>();
     private ImageIcon mortero = new ImageIcon(getClass().getResource("/Defensa/Imagenes/Mortero.png"));
 
-    public Mortero(int nivel, int vida, String nameClass, int FrecDisparo) {
-        super(nivel, vida, nameClass, FrecDisparo);
+    public Mortero(int nivel, int vida, String nameClass, int FrecDisparo, int fuerza) {
+        super(nivel, vida, nameClass, FrecDisparo, fuerza);
+        CargarMunicion();
     }
 
-    public ImageIcon getMunicion() {
+    private void CargarMunicion(){
+        String[] direcciones = {"/Defensa/Imagenes/balaUP.png","/Defensa/Imagenes/balaDOWN.png","/Defensa/Imagenes/balaL.png",
+        "/Defensa/Imagenes/balaR.png","/Defensa/Imagenes/balaNE.png","/Defensa/Imagenes/balaNO.png","/Defensa/Imagenes/balaSE.png",
+        "/Defensa/Imagenes/balaSO.png"};
+        for (int i = 0; i < direcciones.length; i++){
+            municion.add(new ImageIcon(getClass().getResource(direcciones[i])));
+        }
+    }
+    
+    public ArrayList<ImageIcon> getMunicion() {
         return municion;
     }
 

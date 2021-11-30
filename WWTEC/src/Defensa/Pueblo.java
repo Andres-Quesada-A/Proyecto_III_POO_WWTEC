@@ -19,6 +19,14 @@ public class Pueblo implements Serializable {
     public Pueblo() {
         this.equipoPueblo = new ArrayList<Defensa>();
     }
+
+    public ArrayList<Defensa> getEquipoPueblo() {
+        return equipoPueblo;
+    }
+
+    public void setEquipoPueblo(ArrayList<Defensa> equipoPueblo) {
+        this.equipoPueblo = equipoPueblo;
+    }
     
     //Se ingresa un nuevo objeto que se utilizará en el pueblo, preferiblemente que solo sea
     //un objeto de una clase correspondiente

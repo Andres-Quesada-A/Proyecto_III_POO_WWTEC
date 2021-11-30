@@ -5,9 +5,13 @@
  */
 package wwtec;
 
+import DistribuccioPueblo.DistribucionPueblo;
 import InicioSesion.ControladorInicio;
 import InicioSesion.ModeloInicio;
 import InicioSesion.VistaInicio;
+import Juego.*;
+import PartidasJugador.PartidaUsuario;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,6 +27,10 @@ public class WWTEC {
         ModeloInicio modelo = new ModeloInicio();
         ControladorInicio controller = new ControladorInicio(vista, modelo);
         controller.ShowView();
+
+//        VistaVideoJuego vista = new VistaVideoJuego();
+//        ModeloVideoJuego modelo = new ModeloVideoJuego();
+//        ControladorVideoJuego controller = new ControladorVideoJuego(vista, modelo);
+//        controller.ShowView();
     }
-    
 }

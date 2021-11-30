@@ -63,25 +63,25 @@ public class ModeloPuebloConfiguracion {
     
     public void CrearNuevoObjeto(String tipo, int vida, int disparos){
         if (tipo.equalsIgnoreCase("Aereos")){
-            AereosD nuevo = new AereosD(1, vida, tipo, disparos);
+            AereosD nuevo = new AereosD(1, vida, tipo, disparos, 1);
             this.pueblo.insertarMiembro((Defensa)nuevo);
         }else if (tipo.equalsIgnoreCase("Bombas")){
-            Bombas nuevo = new Bombas(1, vida, tipo, disparos);
+            Bombas nuevo = new Bombas(1, vida, tipo, disparos, 1);
             this.pueblo.insertarMiembro((Defensa)nuevo);
         }else if (tipo.equalsIgnoreCase("Cañon")){
-            Cañon nuevo = new Cañon(1, vida, tipo, disparos);
+            Cañon nuevo = new Cañon(1, vida, tipo, disparos, 1);
             this.pueblo.insertarMiembro((Defensa)nuevo);
         }else if (tipo.equalsIgnoreCase("Edificio")){
-            Edificio nuevo = new Edificio(1, vida, tipo, disparos);
+            Edificio nuevo = new Edificio(1, vida, tipo, disparos, 1);
             this.pueblo.insertarMiembro((Defensa)nuevo);
         }else if (tipo.equalsIgnoreCase("Mortero")){
-            Mortero nuevo = new Mortero(1, vida, tipo, disparos);
+            Mortero nuevo = new Mortero(1, vida, tipo, disparos, 1);
             this.pueblo.insertarMiembro((Defensa)nuevo);
         }else if (tipo.equalsIgnoreCase("Muro")){
-            Muro nuevo = new Muro(1, vida, tipo, disparos);
+            Muro nuevo = new Muro(1, vida, tipo, disparos, 1);
             this.pueblo.insertarMiembro((Defensa)nuevo);
         }else if (tipo.equalsIgnoreCase("Torre")){
-            Torre nuevo = new Torre(1, vida, tipo, disparos);
+            Torre nuevo = new Torre(1, vida, tipo, disparos, 1);
             this.pueblo.insertarMiembro((Defensa)nuevo);
         }
     }

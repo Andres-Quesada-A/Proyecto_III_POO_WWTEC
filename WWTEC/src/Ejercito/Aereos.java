@@ -15,8 +15,8 @@ import javax.swing.ImageIcon;
  */
 public class Aereos extends Ejercito implements Serializable{
     private String tipo;
-    private ImageIcon Tipos = new ImageIcon();
-    private ImageIcon Balas = new ImageIcon();
+    private ArrayList<ImageIcon> Tipos = new ArrayList<ImageIcon>();
+    private ArrayList<ImageIcon> Balas = new ArrayList<ImageIcon>();
     private String PathRuido = "";
     private int modo = 0;
 
@@ -48,15 +48,48 @@ public class Aereos extends Ejercito implements Serializable{
         
     }
     
+    private void CargarAviones(){
+        Tipos.add(new ImageIcon(getClass().getResource("/Ejercito/Aereos/Aviones/avionR.png")));
+        Tipos.add(new ImageIcon(getClass().getResource("/Ejercito/Aereos/Aviones/avionL.png")));
+    }
+    
+    private void CargarBombarderos(){
+        Tipos.add(new ImageIcon(getClass().getResource("/Ejercito/Aereos/Bombarderos/BombarderoR.png")));
+        Tipos.add(new ImageIcon(getClass().getResource("/Ejercito/Aereos/Bombarderos/BombarderoL.png")));
+    }
+    
     private void CargarTipoAereo(){
         switch(this.modo){
-            case 1: Tipos = new ImageIcon(getClass().getResource("/Ejercito/Aereos/Aviones/avion.jpg")); break;
-            case 2: Tipos = new ImageIcon(getClass().getResource("/Ejercito/Aereos/Bombarderos/Bombardero.jpg")); break;
-            default: Tipos = new ImageIcon(getClass().getResource("/Ejercito/Aereos/Aviones/avion.jpg")); break;
+            case 1: CargarAviones(); break;
+            case 2: CargarBombarderos(); break;
+            default: CargarAviones(); break;
         }
     }
     
-    private void CargarTipoBalas(){
-        Balas = new ImageIcon(getClass().getResource("/Ejercito/Aereos/Proyectil.jpg"));
+    public ImageIcon getMovimientoLeft(){
+        return Tipos.get(1);
     }
+    
+    public ImageIcon getMovimientoRight(){
+        return Tipos.get(0);
+    }
+    
+    private void CargarTipoBalas(){
+        String[] direcciones = {"/Ejercito/Aereos/misilUP.png","/Ejercito/Aereos/misilDOWN.png","/Ejercito/Aereos/misilL.png",
+        "/Ejercito/Aereos/misilR.png","/Ejercito/Aereos/misilR.png","/Ejercito/Aereos/misilNE.png","/Ejercito/Aereos/misilNO.png",
+        "/Ejercito/Aereos/misilSE.png","/Ejercito/Aereos/misilSO.png"};
+        for (int i = 0; i < direcciones.length; i++){
+            Balas.add(new ImageIcon(getClass().getResource(direcciones[i])));
+        }
+    }
+
+    public ArrayList<ImageIcon> getTipos() {
+        return Tipos;
+    }
+
+    public ArrayList<ImageIcon> getBalas() {
+        return Balas;
+    }
+    
+    
 }

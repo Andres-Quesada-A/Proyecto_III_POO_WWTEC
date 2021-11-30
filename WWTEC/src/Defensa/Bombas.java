@@ -16,9 +16,18 @@ import javax.swing.ImageIcon;
 public class Bombas extends Defensa implements Serializable{
     private ImageIcon bomba = new ImageIcon(getClass().getResource("/Defensa/Imagenes/Granada.png"));
     private ArrayList<ImageIcon> explosion = new ArrayList<ImageIcon>();
+    private int Alcance = 80;
 
-    public Bombas(int nivel, int vida, String nameClass, int FrecDisparo) {
-        super(nivel, vida, nameClass, FrecDisparo);
+    public int getAlcance() {
+        return Alcance;
+    }
+
+    public void setAlcance(int Alcance) {
+        this.Alcance = Alcance;
+    }
+
+    public Bombas(int nivel, int vida, String nameClass, int FrecDisparo, int fuerza) {
+        super(nivel, vida, nameClass, FrecDisparo, fuerza);
         CargarExplosion();
     }
 

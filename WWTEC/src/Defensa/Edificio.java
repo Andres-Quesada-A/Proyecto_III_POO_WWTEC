@@ -15,9 +15,11 @@ import javax.swing.ImageIcon;
  */
 public class Edificio extends Defensa implements Serializable{
     private ArrayList<ImageIcon> edificios = new ArrayList<ImageIcon>();
+    private int x = 480;
+    private int y = 260;
 
-    public Edificio(int nivel, int vida, String nameClass, int FrecDisparo) {
-        super(nivel, vida, nameClass, FrecDisparo);
+    public Edificio(int nivel, int vida, String nameClass, int FrecDisparo, int fuerza) {
+        super(nivel, vida, nameClass, FrecDisparo, fuerza);
         CargarEdificios();
     }
     
@@ -28,6 +30,22 @@ public class Edificio extends Defensa implements Serializable{
             ImageIcon Aux = new ImageIcon(getClass().getResource(URLEdificios[i]));
             edificios.add(Aux);
         } 
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
     
     public ImageIcon getEdificio(int index){

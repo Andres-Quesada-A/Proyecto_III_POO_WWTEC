@@ -16,12 +16,22 @@ public class Defensa implements Serializable{
     private int vida;
     private String nameClass;
     private int FrecuenciaDisparo;
+    private int fuerzaGolpe;
 
-    public Defensa(int nivel, int vida, String nameClass, int FrecDisparo) {
+    public Defensa(int nivel, int vida, String nameClass, int FrecDisparo, int fuerzaGolpe) {
         this.nivel = nivel;
         this.vida = vida;
         this.nameClass = nameClass;
         this.FrecuenciaDisparo = FrecDisparo;
+        this.fuerzaGolpe = fuerzaGolpe;
+    }
+
+    public int getFuerzaGolpe() {
+        return fuerzaGolpe;
+    }
+
+    public void setFuerzaGolpe(int fuerzaGolpe) {
+        this.fuerzaGolpe = fuerzaGolpe;
     }
 
     public int getNivel() {

@@ -17,7 +17,7 @@ public class Impacto extends Ejercito implements Serializable{
     private String Arma;
     private String RuidoPath = "";
     private int Limite;
-    private ImageIcon Movimiento = new ImageIcon();
+    private ArrayList<ImageIcon> Movimiento = new ArrayList<ImageIcon>();
 
     public Impacto(String nameClass,String Arma, String Nombre, int Vida, int CantidadGolpes, int nivel, int Campos, int NivelAparicion, int Costo, int Fuerza) {
         super(nameClass, Nombre, Vida, CantidadGolpes, nivel, Campos, NivelAparicion, Costo, Fuerza);
@@ -26,9 +26,18 @@ public class Impacto extends Ejercito implements Serializable{
     }
     
     private void CargarImagenMove(){
-        Movimiento = new ImageIcon(getClass().getResource("/Ejercito/Impacto/camion.jpg"));
+        Movimiento.add(new ImageIcon(getClass().getResource("/Ejercito/Impacto/camionL.png")));
+        Movimiento.add(new ImageIcon(getClass().getResource("/Ejercito/Impacto/camionR.png")));
     }
 
+    public ImageIcon getMovimientoLeft(){
+        return Movimiento.get(0);
+    }
+    
+    public ImageIcon getMovimientoRight(){
+        return Movimiento.get(1);
+    }
+    
     public String getArma() {
         return Arma;
     }

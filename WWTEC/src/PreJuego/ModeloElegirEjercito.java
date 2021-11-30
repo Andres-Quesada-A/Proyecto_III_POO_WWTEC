@@ -13,8 +13,10 @@ import Ejercito.Impacto;
 import Ejercito.SoldadoContacto;
 import EquipoEjercito.EquipoEjercito;
 import FactoryEjercito.FactoryEjercito;
+import FilesManagers.FileManager;
 import FilesManagers.Serealizar_Deserializar_Objeto;
 import JuegoUsuario.JuegoUsuario;
+import PartidasJugador.PartidaUsuario;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
@@ -31,18 +33,42 @@ public class ModeloElegirEjercito {
     private String PATH;
 
     public ModeloElegirEjercito(String user, String password) {
-        PATH = user + "_" + password + ".dat";
+       
         soldados = new EquipoEjercito();
-        DeserealizarObjeto();
         CargarIconos();
+        ExtraerPath(user, password);
+    }
+    
+    private void ExtraerPath(String user, String password){
+        FileManager file = new FileManager();
+        file.createFile("HistorialPartidas.txt");
+        String Historial = file.readFile("HistorialPartidas.txt");
+        String [] partidas = Historial.split("\n");
+        String PathDefinitivo = "";
+        int mayor = 0;
+        
+        for (int i = 0; i < partidas.length; i++){
+            String[] partes = partidas[i].split("_");
+            if (partes[0].equalsIgnoreCase(user) && partes[1].equalsIgnoreCase(password)){
+                //user_password_Nivel_#
+                if (Integer.parseInt(partes[3]) > mayor){
+                    mayor = Integer.parseInt(partes[3]);
+                    PathDefinitivo = partidas[i];
+                }
+            }
+        }
+        PATH = PathDefinitivo + ".dat";
+        DeserealizarObjeto();
     }
     
     public void DeserealizarObjeto(){
-        juegoUsuario = Serealizar_Deserializar_Objeto.deserializarObjeto(PATH, JuegoUsuario.class);
-        if (juegoUsuario == null){
-            System.out.println("Los recursos recuperados son nulos");
+        PartidaUsuario recuperado = Serealizar_Deserializar_Objeto.deserializarObjeto(PATH, PartidaUsuario.class);
+        
+        if (recuperado == null){
+            System.out.println("Los recursos recuperados en elegir ejercito son nulos");
         }else{
-            System.out.println("Si existen recursos");
+            juegoUsuario = recuperado.getJuegoUsuario();
+            System.out.println("Si existen recursos en elegir ejercito");
             EquipoEjercito recuperado2 = juegoUsuario.getEjercito();
             for (int i = 0; i < recuperado2.getLegthArray(); i++){
                 soldados.insertarMiembro(recuperado2.GetUsuario(i));
@@ -50,21 +76,20 @@ public class ModeloElegirEjercito {
         }
     }
     
-//    public void DeserealizarObjeto(){
-//        EquipoEjercito recuperado = Serealizar_Deserializar_Objeto.deserializarObjeto("Ejercito.Dat", EquipoEjercito.class);
-//        if (recuperado == null){
-//            System.out.println("Los recursos recuperados son nulos");
-//        }else{
-//            System.out.println("Si existen recursos");
-//            for (int i = 0; i < recuperado.getLegthArray(); i++){
-//                soldados.insertarMiembro(recuperado.GetUsuario(i));
-//            }
-//        }
-//    }
+    public void SerealizarObjeto(){
+        PartidaUsuario recuperado = Serealizar_Deserializar_Objeto.deserializarObjeto(PATH, PartidaUsuario.class);
+        
+        if (recuperado == null){
+            System.out.println("Los recursos recuperados en elegir ejercito son nulos");
+        }else{
+            System.out.println("Si existen recursos en elegir ejercito");
+            recuperado.setJuegoUsuario(this.juegoUsuario);
+            Serealizar_Deserializar_Objeto.serializarObjeto(PATH, recuperado);
+            
+        }
+    }
     
-    /*
-    Espadas, manos, flechas, metralleta, pistola, avion, bombardero, tanque, carro
-    */
+ 
     private void CargarIconos(){
         String[] Categorias = {"/PreJuego/Imagenes/PersonajeE.png","/PreJuego/Imagenes/PersonajePuños.png",
         "/PreJuego/Imagenes/PersonajeF.png","/PreJuego/Imagenes/PersonajeM.png","/PreJuego/Imagenes/PersonajeP.png",
@@ -84,6 +109,10 @@ public class ModeloElegirEjercito {
         Ejercito Aux = soldados.GetUsuario(index);
         EscogerImagen(Aux);
         return Aux;
+    }
+
+    public String getPATH() {
+        return PATH;
     }
     
     private void EscogerImagen(Ejercito Auxiliar){
