@@ -6,6 +6,8 @@
 package Threads;
 
 import Juego.ControladorVideoJuego;
+import Sonido.SClip;
+import Sonido.ThreadSonido;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -17,6 +19,8 @@ import javax.swing.ImageIcon;
  * @author andre
  */
 public class ThreadSoldado extends Thread implements Serializable{
+    private static final SClip espada = new SClip("espada.wav");
+    private static final SClip golpes = new SClip("golpes.wav");
     private int indice;
     private int x, y;
     private int frencuenciaDisparo;
@@ -59,6 +63,8 @@ public class ThreadSoldado extends Thread implements Serializable{
                         System.out.println("Falló el thread que hace caminar al soldado");
                     }
                 }
+                ThreadSonido sonido = new ThreadSonido(espada);
+                sonido.start();
                 this.controlador.BajarVidaPueblo(coordEnemigo[0], coordEnemigo[1], pesoGolpe);
                 index = 0;
             }else{

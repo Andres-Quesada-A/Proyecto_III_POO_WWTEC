@@ -6,6 +6,8 @@
 package Threads;
 
 import Juego.ControladorVideoJuego;
+import Sonido.SClip;
+import Sonido.ThreadSonido;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -15,6 +17,7 @@ import javax.swing.ImageIcon;
  * @author andre
  */
 public class ThreadPueblo extends Thread implements Serializable{
+    private static final SClip cañon = new SClip("Cañon.wav");
     private int indice;
     private int x, y;
     private int frencuenciaDisparo;
@@ -46,6 +49,8 @@ public class ThreadPueblo extends Thread implements Serializable{
                     this.controlador.RealizarDisparo(x, y, pesoGolpe, direccion, municion.get(direccion), 2);
                 }else{
                     this.controlador.RealizarDisparo(x, y, pesoGolpe, direccion, municion.get(0), 2);
+                    ThreadSonido sonido = new ThreadSonido(cañon);
+                    sonido.start();
                 }
                 try {
                     sleep(frencuenciaDisparo);

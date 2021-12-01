@@ -6,6 +6,8 @@
 package Threads;
 
 import Juego.ControladorVideoJuego;
+import Sonido.SClip;
+import Sonido.ThreadSonido;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -15,6 +17,7 @@ import javax.swing.ImageIcon;
  * @author andre
  */
 public class ThreadAviones extends Thread implements Serializable{
+    private static final SClip misil = new SClip("misil.wav");
     private int indice;
     private int x, y;
     private int frencuenciaDisparo;
@@ -48,6 +51,8 @@ public class ThreadAviones extends Thread implements Serializable{
             if (address != 0){
                 //1: es del ejercito y ataca al pueblo///2: es del pueblo y ataca al ejercito
                 this.controlador.RealizarDisparo(x, y, pesoGolpe, address, Municion.get(address - 1), 1);
+                ThreadSonido sonido = new ThreadSonido(misil);
+                sonido.start();
                 try {
                     sleep(frencuenciaDisparo);
                 } catch (InterruptedException ex) {

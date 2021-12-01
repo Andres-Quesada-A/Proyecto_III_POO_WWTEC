@@ -6,6 +6,8 @@
 package Threads;
 
 import Juego.ControladorVideoJuego;
+import Sonido.SClip;
+import Sonido.ThreadSonido;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -15,6 +17,7 @@ import javax.swing.ImageIcon;
  * @author andre
  */
 public class ThreadBomba extends Thread implements Serializable{
+    private static final SClip bomba = new SClip("bomba.wav");
     private int x, y;
     private int indice;
     private ArrayList<ImageIcon> explosion;
@@ -34,6 +37,8 @@ public class ThreadBomba extends Thread implements Serializable{
     public void run(){
         while (Estado){
             if (!this.controlador.explotarBomba(indice, x, y)){
+                ThreadSonido sonido = new ThreadSonido(bomba);
+                sonido.start();
                 for (int i = 0; i < explosion.size(); i++){
                     this.controlador.CambiarLabelBomba(indice, explosion.get(i));
                     try {

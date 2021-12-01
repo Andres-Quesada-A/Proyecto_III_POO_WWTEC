@@ -6,6 +6,8 @@
 package Threads;
 
 import Juego.ControladorVideoJuego;
+import Sonido.SClip;
+import Sonido.ThreadSonido;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
@@ -14,6 +16,7 @@ import javax.swing.ImageIcon;
  * @author andre
  */
 public class ThreadCamion extends Thread implements Serializable{
+    private static final SClip motorCarro = new SClip("motorCarro.wav");
     private int indice;
     private int x, y;
     private int frencuenciaDisparo;
@@ -51,6 +54,7 @@ public class ThreadCamion extends Thread implements Serializable{
                     } catch (InterruptedException ex) {
                         System.out.println("Falló el thread que hace golpear con el carro");
                     }
+                ThreadSonido sonido = new ThreadSonido(motorCarro);
                 this.controlador.BajarVidaPueblo(coordEnemigo[0], coordEnemigo[1], pesoGolpe);
             }else{
                 Avanzar();
