@@ -59,7 +59,7 @@ public class ModeloVideoJuego {
         AlcanceMedio midAlcance = new AlcanceMedio("Alcance medio", "Arma", "nombre", 1,1,1,1,1,1,1);
         Aereos aereo = new Aereos("Aéreos","Arma", "nombre", 1,1,1,1,1,1,1);
         for (int i = 0; i < equipo.getLegthArray(); i++){
-            if (equipo.GetUsuario(i).getNombreClase().equalsIgnoreCase("Aéreos") && equipo.GetUsuario(i).getNivelAparicion() < nivel){
+            if (equipo.GetUsuario(i).getNombreClase().equalsIgnoreCase("Aéreos") && equipo.GetUsuario(i).getNivelAparicion() < nivel + 1){
                 equipo.GetUsuario(i).Mejorar(mejoramiento);
             }else if (equipo.GetUsuario(i).getNombreClase().equalsIgnoreCase("Alcance medio") && equipo.GetUsuario(i).getNivelAparicion() < nivel){
                 equipo.GetUsuario(i).Mejorar(mejoramiento);
@@ -68,7 +68,7 @@ public class ModeloVideoJuego {
         
         //Guardamos el nuevo equipo
         partidaUsuario.juegoUsuario.setEjercito(equipo);
-        GuardarSiguientePartida(partidaUsuario, nivel);
+        GuardarSiguientePartida(partidaUsuario,  nivel + 1);
         
     }
     
@@ -81,7 +81,7 @@ public class ModeloVideoJuego {
         
         FileManager file = new FileManager();
         file.createFile("HistorialPartidas.txt");
-        file.writeToFile("HistorialPartidas.txt", PorGuardar);
+        file.writeToFile("HistorialPartidas.txt", PorGuardar + "\n");
         
         //Guardamos todos los cambios
         FileManager file2 = new FileManager();

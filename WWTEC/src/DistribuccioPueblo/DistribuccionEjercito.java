@@ -25,7 +25,7 @@ public class DistribuccionEjercito {
         for (int i = 0; i < cantidad; i++){
             estado = true;
             while (estado){
-                posicion = r.nextInt(4);
+                posicion = 1 + r.nextInt(4);
                 int k;
                 for (k = 0; k < registro.size(); k++){
                     if (registro.get(k) == posicion){
@@ -38,11 +38,11 @@ public class DistribuccionEjercito {
                 }
             }
             if (nivel < 6){
-                aviones.add(coordenadas[posicion * 2]);
-                aviones.add(coordenadas[(posicion * 2) + 1]);
+                aviones.add(coordenadas[(posicion - 1) * 2]);
+                aviones.add(coordenadas[((posicion - 1) * 2) + 1]);
             }else{
-                aviones.add(Coordenadas[posicion * 2]);
-                aviones.add(Coordenadas[(posicion * 2) + 1]);
+                aviones.add(Coordenadas[(posicion - 1) * 2]);
+                aviones.add(Coordenadas[((posicion - 1) * 2) + 1]);
             }
         }
         return aviones;
@@ -60,7 +60,7 @@ public class DistribuccionEjercito {
         for (int i = 0; i < cantidad; i++){
             estado = true;
             while (estado){
-                posicion = r.nextInt(4);
+                posicion = 1 + r.nextInt(4);
                 int k;
                 for (k = 0; k < registro.size(); k++){
                     if (registro.get(k) == posicion){
@@ -73,11 +73,11 @@ public class DistribuccionEjercito {
                 }
             }
             if (nivel < 6){
-                tanques.add(coordenadas[posicion * 2]);
-                tanques.add(coordenadas[(posicion * 2) + 1]);
+                tanques.add(coordenadas[(posicion - 1) * 2]);
+                tanques.add(coordenadas[((posicion - 1) * 2) + 1]);
             }else{
-                tanques.add(Coordenadas[posicion * 2]);
-                tanques.add(Coordenadas[(posicion * 2) + 1]);
+                tanques.add(Coordenadas[(posicion - 1) * 2]);
+                tanques.add(Coordenadas[((posicion - 1) * 2) + 1]);
             }
         }
         return tanques;
@@ -95,7 +95,7 @@ public class DistribuccionEjercito {
         for (int i = 0; i < cantidad; i++){
             estado = true;
             while (estado){
-                posicion = r.nextInt(4);
+                posicion = 1 + r.nextInt(4);
                 int k;
                 for (k = 0; k < registro.size(); k++){
                     if (registro.get(k) == posicion){
@@ -108,11 +108,11 @@ public class DistribuccionEjercito {
                 }
             }
             if (nivel < 6){
-                camiones.add(coordenadas[posicion * 2]);
-                camiones.add(coordenadas[(posicion * 2) + 1]);
+                camiones.add(coordenadas[(posicion - 1) * 2]);
+                camiones.add(coordenadas[((posicion - 1) * 2) + 1]);
             }else{
-                camiones.add(Coordenadas[posicion * 2]);
-                camiones.add(Coordenadas[(posicion * 2) + 1]);
+                camiones.add(Coordenadas[(posicion - 1) * 2]);
+                camiones.add(Coordenadas[((posicion - 1) * 2) + 1]);
             }
         }
         return camiones;
@@ -129,27 +129,30 @@ public class DistribuccionEjercito {
         Random r = new Random();
         if (nivel < 6){
             for (int i = 0; i < cantidad; i++){
+                System.out.println("Dentro del ciclo");
                 estado = true;
                 while (estado){
-                    posicion = r.nextInt(5);
+                    posicion = 1 + r.nextInt(5);
                     int k;
                     for (k = 0; k < registro.size(); k++){
+                        System.out.println("Continuando.... " + registro.get(k) + "  --->  " + posicion);
                         if (registro.get(k) == posicion)
                             k = registro.size() + 5;
                     }
                     if (k == registro.size()){
+                        System.out.println("Entró y guardó " + posicion);
                         registro.add(posicion);
                         estado = false;
                     }
                 }
-                contacto.add(coordenadas[posicion * 2]);
-                contacto.add(coordenadas[(posicion * 2) + 1]);
+                contacto.add(coordenadas[(posicion - 1) * 2]);
+                contacto.add(coordenadas[((posicion - 1) * 2) + 1]);
             }
         }else{
             for (int i = 0; i < cantidad; i++){
                 estado = true;
                 while (estado){
-                    posicion = r.nextInt(8);
+                    posicion = 1 + r.nextInt(8);
                     int k;
                     for (k = 0; k < registro.size(); k++){
                         if (registro.get(k) == posicion)
@@ -160,8 +163,8 @@ public class DistribuccionEjercito {
                         estado = false;
                     }
                 }
-                contacto.add(Coordenadas[posicion * 2]);
-                contacto.add(Coordenadas[(posicion * 2) + 1]);
+                contacto.add(Coordenadas[(posicion - 1) * 2]);
+                contacto.add(Coordenadas[((posicion - 1) * 2) + 1]);
             }
         }
         return contacto;
@@ -180,7 +183,7 @@ public class DistribuccionEjercito {
             for (int i = 0; i < cantidad; i++){
                 estado = true;
                 while (estado){
-                    posicion = r.nextInt(5);
+                    posicion = 1 + r.nextInt(5);
                     int k;
                     for (k = 0; k < registro.size(); k++){
                         if (registro.get(k) == posicion)
@@ -191,8 +194,8 @@ public class DistribuccionEjercito {
                         estado = false;
                     }
                 }
-                AlcanceMedio.add(coordenadas[posicion * 2]);
-                AlcanceMedio.add(coordenadas[(posicion * 2) + 1]);
+                AlcanceMedio.add(coordenadas[(posicion - 1) * 2]);
+                AlcanceMedio.add(coordenadas[((posicion - 1) * 2) + 1]);
             }
         }else{
             for (int i = 0; i < cantidad; i++){

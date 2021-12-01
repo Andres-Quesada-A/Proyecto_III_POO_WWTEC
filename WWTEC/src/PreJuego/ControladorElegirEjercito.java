@@ -27,6 +27,7 @@ public class ControladorElegirEjercito implements ActionListener{
         this.vista.setTextMoneta(Integer.toString(this.modelo.ObtenerDinero()));
         this.vista.setCampos(this.modelo.GetCampos());
         this.Campos = Integer.parseInt(this.modelo.GetCampos());
+        this.vista.setNivel(this.modelo.GetNivelUsuario());
         init();
     }
     

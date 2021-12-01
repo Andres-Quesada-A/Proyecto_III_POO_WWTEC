@@ -139,6 +139,10 @@ public class VistaElegirEjercito extends javax.swing.JFrame {
     public void setMensaje(String error){
         JOptionPane.showMessageDialog(this, error, "Informativo", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    public void setNivel(int nivel){
+        this.lblNivel.setText("Nivel: " + Integer.toString(nivel));
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -149,6 +153,7 @@ public class VistaElegirEjercito extends javax.swing.JFrame {
         btnSiguiente = new javax.swing.JButton();
         btnAtras = new javax.swing.JButton();
         CmbxElegidos = new javax.swing.JComboBox<>();
+        lblNivel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,15 +164,15 @@ public class VistaElegirEjercito extends javax.swing.JFrame {
 
         CmbxElegidos.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        lblNivel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblNivel.setForeground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(310, 310, 310)
-                        .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,13 +183,21 @@ public class VistaElegirEjercito extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(CmbxElegidos, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(331, Short.MAX_VALUE))
+                .addContainerGap(379, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(310, 310, 310)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(153, 153, 153)
@@ -258,6 +271,7 @@ public class VistaElegirEjercito extends javax.swing.JFrame {
     public javax.swing.JButton btnSiguiente;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JLabel lblFigura;
+    private javax.swing.JLabel lblNivel;
     public javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }

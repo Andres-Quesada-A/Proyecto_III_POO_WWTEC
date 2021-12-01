@@ -73,6 +73,7 @@ public class PartidaUsuario implements Serializable{
     }
 
     public void setJuegoUsuario(JuegoUsuario juegoUsuario) {
+        this.juegoUsuario = new JuegoUsuario();
         this.juegoUsuario = juegoUsuario;
     }
 

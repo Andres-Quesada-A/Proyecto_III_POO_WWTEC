@@ -68,6 +68,7 @@ public class ModeloElegirEjercito {
             System.out.println("Los recursos recuperados en elegir ejercito son nulos");
         }else{
             juegoUsuario = recuperado.getJuegoUsuario();
+            juegoUsuario.LimpiarParaLuchar();
             System.out.println("Si existen recursos en elegir ejercito");
             EquipoEjercito recuperado2 = juegoUsuario.getEjercito();
             for (int i = 0; i < recuperado2.getLegthArray(); i++){

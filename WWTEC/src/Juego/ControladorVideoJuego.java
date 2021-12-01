@@ -38,6 +38,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class ControladorVideoJuego implements ActionListener{
     private static int ANCHO = 1098;
@@ -198,7 +199,7 @@ public class ControladorVideoJuego implements ActionListener{
         InsertarImpacto(tempImpacto);
         InsertarChoque(tempChoque);
         
-        EncenderThreads();
+        //EncenderThreads();
     }
     
     private void InsertarSoldados(ArrayList<Ejercito> tempSoldado){
@@ -557,14 +558,34 @@ public class ControladorVideoJuego implements ActionListener{
     //Se salta el nivel y pasa al siguiente con todo lo que implica (obtener los bienes, aumentar el nivel de los
     //componentes..etc
     private void BotonTrampaAction(){
-        this.modelo.PasarAlSiguienteNivel(partidaUsuario);
-        
-        //Regresa a elegir el ejercito
-        VistaElegirEjercito vista = new VistaElegirEjercito();
-        ModeloElegirEjercito modelo = new ModeloElegirEjercito(user, password);
-        ControladorElegirEjercito controller = new ControladorElegirEjercito(modelo, vista);
-        controller.ShowView();
-        this.vista.dispose();
+        if (Nivel < 10){
+            this.modelo.PasarAlSiguienteNivel(partidaUsuario);
+
+            //Regresa a elegir el ejercito
+            VistaElegirEjercito vista = new VistaElegirEjercito();
+            ModeloElegirEjercito modelo = new ModeloElegirEjercito(user, password);
+            ControladorElegirEjercito controller = new ControladorElegirEjercito(modelo, vista);
+            controller.ShowView();
+            this.vista.dispose();
+        }else{
+            String[] options = {"Ganar Juego", "Generar más niveles"};
+            int x = JOptionPane.showOptionDialog(null, "Escoja una opcion",
+                "Seleccione un modo",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+            if (x == 0){
+                JOptionPane.showMessageDialog(null, "Felicidades ha ganado\n el juego!!!");
+                this.vista.dispose();
+            }else{
+                this.modelo.PasarAlSiguienteNivel(partidaUsuario);
+
+                //Regresa a elegir el ejercito
+                VistaElegirEjercito vista = new VistaElegirEjercito();
+                ModeloElegirEjercito modelo = new ModeloElegirEjercito(user, password);
+                ControladorElegirEjercito controller = new ControladorElegirEjercito(modelo, vista);
+                controller.ShowView();
+                this.vista.dispose();
+            }
+        }
     }
     //Busca a los enemigos (los del pueblo) que se encuentran en la mira
     public synchronized int IdentificarEnemigo(int x, int y, int direccion){

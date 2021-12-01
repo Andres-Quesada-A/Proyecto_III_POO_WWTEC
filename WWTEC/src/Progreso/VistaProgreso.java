@@ -61,6 +61,7 @@ public class VistaProgreso extends javax.swing.JFrame {
     
     private void ObtenerNivel(){
         nivelActual = ModeloProgreso.ObtenerNivel(user, password);
+        System.out.println("\nNivel actual: " + nivelActual + "\n");
         cargarBotones();
         cargarNiveles();
     }
@@ -101,18 +102,31 @@ public class VistaProgreso extends javax.swing.JFrame {
         // obtiene el i,j de action command del boton
         String identificadorBoton = botonTemp.getActionCommand();
         
+        System.out.println("\nNivel a jugar: " + identificadorBoton);
+        
         String PATH = ModeloProgreso.CrearDistribucciones(Integer.parseInt(identificadorBoton), user, password);
+        System.out.println("Terminó de crear las distribucciones");
+        
         VistaVideoJuego vista =  new VistaVideoJuego();
         ModeloVideoJuego modelo = new ModeloVideoJuego();
         ControladorVideoJuego controlador = new ControladorVideoJuego(vista, modelo);
         controlador.ShowView();
+        System.out.println("Crear todo bien (Ventana video juego)");
         controlador.IniciarNormal(PATH);
+        System.out.println("Se inició de manera normal");
         this.dispose();
     }
     
     public void cargarNiveles(){
         System.out.println("Cargar niveles");
-        for(int i=0;i<nivelActual;i++){
+        int cantNiveles;
+        if (nivelActual > 10){
+            cantNiveles = 10;
+        }else{
+            cantNiveles = nivelActual;
+        }
+        
+        for(int i=0;i < cantNiveles;i++){
             niveles.get(i).setBackground(COLOR_DESBLOQUEADO);
             niveles.get(i).setForeground(COLOR_DESBLOQUEADO_SECUNDARIO);
             niveles.get(i).setBorder(BORDE_DESBLOQUEADO);
@@ -128,13 +142,26 @@ public class VistaProgreso extends javax.swing.JFrame {
     }
     
     public void crearNivel(){
-        nivelesTotales++;
-        generarNivel(false,nivelesTotales);
+        System.out.println("Crear nivel con " + nivelActual + "   --->   " + nivelesTotales);
+        if (nivelActual > 10){
+            for (int i = 0; i < nivelActual - 10; i++){
+                nivelesTotales++;
+                generarNivel(true,nivelesTotales);
+            }
+        }
     }
     
     public void generarNivel(boolean desbloqueado, int nivel){
         JButton nivelButton = new JButton("Nivel "+nivel);
         nivelButton.setFont(FONT_BOTON);
+        nivelButton.setActionCommand(valorNivel + ""); 
+        nivelButton.addMouseListener(new MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent evt) {
+            clickNivel(evt);
+        }
+        });
+        valorNivel++;
+        
         
         if(nivel>numeroDeTabs*10){
             numeroDeTabs++;

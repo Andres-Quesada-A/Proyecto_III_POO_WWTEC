@@ -37,6 +37,10 @@ public class JuegoUsuario implements Serializable{
     private ArrayList<Integer> DistribuccionAlcanceMedio = new ArrayList<Integer>();
     
     
+    public void LimpiarParaLuchar(){
+        paraLuchar = new ArrayList<Ejercito>();
+    }
+    
     public JuegoUsuario() {
     }
 
