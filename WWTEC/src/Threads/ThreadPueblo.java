@@ -46,7 +46,7 @@ public class ThreadPueblo extends Thread implements Serializable{
             direccion = this.controlador.RealizarDisparoPueblo(indice, x, y, TipoDefensa);
             if (direccion > 0){
                 if (municion.size() > 1){
-                    this.controlador.RealizarDisparo(x, y, pesoGolpe, direccion, municion.get(direccion), 2);
+                    this.controlador.RealizarDisparo(x, y, pesoGolpe, direccion, municion.get(direccion - 1), 2);
                 }else{
                     this.controlador.RealizarDisparo(x, y, pesoGolpe, direccion, municion.get(0), 2);
                     ThreadSonido sonido = new ThreadSonido(cañon);

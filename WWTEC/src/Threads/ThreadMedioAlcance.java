@@ -76,7 +76,7 @@ public class ThreadMedioAlcance extends Thread implements Serializable{
                 }
                 ThreadSonido sonido = new ThreadSonido(disparopueblo);
                 sonido.start();
-                this.controlador.RealizarDisparo(x, y, pesoGolpe, coordEnemigo[2], Municiones.get(coordEnemigo[2]), 1);
+                this.controlador.RealizarDisparo(x, y, pesoGolpe, (coordEnemigo[2] - 1), Municiones.get(coordEnemigo[2]), 1);
                 index = 0;
             }else{
                 Avanzar();

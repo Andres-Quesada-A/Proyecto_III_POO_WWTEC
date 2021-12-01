@@ -20,6 +20,9 @@ import Ejercito.Impacto;
 import Ejercito.SoldadoContacto;
 import FactoryEjercito.FactoryEjercito;
 import PartidasJugador.PartidaUsuario;
+import PreJuego.ControladorElegirEjercito;
+import PreJuego.ModeloElegirEjercito;
+import PreJuego.VistaElegirEjercito;
 import Threads.ThreadAviones;
 import Threads.ThreadBomba;
 import Threads.ThreadCamion;
@@ -36,7 +39,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class ControladorVideoJuego  implements ActionListener{
+public class ControladorVideoJuego implements ActionListener{
     private static int ANCHO = 1098;
     private static int LARGO = 698;
     private VistaVideoJuego vista;
@@ -56,6 +59,8 @@ public class ControladorVideoJuego  implements ActionListener{
     private int Nivel;
     private PartidaUsuario partidaUsuario = new PartidaUsuario();
     private double porcentaje = 100;
+    private String user = "";
+    private String password = "";
     
     
     public ControladorVideoJuego(VistaVideoJuego vista, ModeloVideoJuego modelo){
@@ -74,7 +79,6 @@ public class ControladorVideoJuego  implements ActionListener{
         Casa = new ThreadEdificio(this, 480, 260);
         muros = new ArrayList<ThreadMuro>();
         init();
-        
     }
     
     public void ShowView(){
@@ -93,6 +97,10 @@ public class ControladorVideoJuego  implements ActionListener{
     }
     
     private void DatosIniciales(String PATH){
+        String[] dividido = PATH.split("_");
+        this.user = dividido[0];
+        this.password = dividido[1];
+        
         partidaUsuario = this.modelo.DeserealizarPartida(PATH);
         Nivel = partidaUsuario.juegoUsuario.getNivel();
         
@@ -508,7 +516,7 @@ public class ControladorVideoJuego  implements ActionListener{
         }
     }
     
-    private void ReducirVidaJuego(int defensa){
+    private synchronized void ReducirVidaJuego(int defensa){
         double[] percentages = new double[7];
         Porcentajes nuevo = new Porcentajes();
         percentages = nuevo.obtenerPorcentajes(Nivel);
@@ -534,7 +542,7 @@ public class ControladorVideoJuego  implements ActionListener{
         }
     }
     
-    public void EliminarMuro(int indice){
+    public synchronized void EliminarMuro(int indice){
         this.vista.EliminarMuro(indice, Nivel);
         int i;
         for(i = 0; i < muros.size(); i++){
@@ -549,55 +557,62 @@ public class ControladorVideoJuego  implements ActionListener{
     //Se salta el nivel y pasa al siguiente con todo lo que implica (obtener los bienes, aumentar el nivel de los
     //componentes..etc
     private void BotonTrampaAction(){
+        this.modelo.PasarAlSiguienteNivel(partidaUsuario);
         
+        //Regresa a elegir el ejercito
+        VistaElegirEjercito vista = new VistaElegirEjercito();
+        ModeloElegirEjercito modelo = new ModeloElegirEjercito(user, password);
+        ControladorElegirEjercito controller = new ControladorElegirEjercito(modelo, vista);
+        controller.ShowView();
+        this.vista.dispose();
     }
     //Busca a los enemigos (los del pueblo) que se encuentran en la mira
-    public int IdentificarEnemigo(int x, int y, int direccion){
+    public synchronized int IdentificarEnemigo(int x, int y, int direccion){
         int Address = 0;
         Address = VerificarEnemigoEnMira.VerificarEnemigoMira(x, y, direccion, torres, cañones, aereos, mortero, Casa, muros);
         return Address;
     }
     
     //Baja la vida de las torres según el peso de cada golpe
-    private void BajarVidaTorres(int index, int PesoGolpe){
+    private synchronized void BajarVidaTorres(int index, int PesoGolpe){
         for (ThreadPueblo torre : torres){
             if (torre.GetIndice() == index)
                 torre.ReducirVida(PesoGolpe);
         }
     }
     //Baja la vida de los cañones según el peso de cada golpe
-    private void BajarVidaCañones(int index, int PesoGolpe){
+    private synchronized void BajarVidaCañones(int index, int PesoGolpe){
         for (ThreadPueblo cañon : cañones){
             if (cañon.GetIndice() == index)
                 cañon.ReducirVida(PesoGolpe);
         }
     }
     //Baja la vida de los cañones según el peso de cada golpe
-    private void BajarVidaAereos(int index, int PesoGolpe){
+    private synchronized void BajarVidaAereos(int index, int PesoGolpe){
         for (ThreadPueblo aereo : aereos){
             if (aereo.GetIndice() == index)
                 aereo.ReducirVida(PesoGolpe);
         }
     }
     //Baja la vida de los cañones según el peso de cada golpe
-    private void BajarVidaMorteros(int index, int PesoGolpe){
+    private synchronized void BajarVidaMorteros(int index, int PesoGolpe){
         for (ThreadPueblo morter : mortero){
             if (morter.GetIndice() == index)
                 morter.ReducirVida(PesoGolpe);
         }
     }
     //Baja la vida de los cañones según el peso de cada golpe
-    private void BajarVidaCasa(int PesoGolpe){
+    private synchronized void BajarVidaCasa(int PesoGolpe){
         this.Casa.BajarVida(PesoGolpe);
     }
     //Baja la vida de los cañones según el peso de cada golpe
-    private void BajarVidaMuro(int index, int PesoGolpe){
+    private synchronized void BajarVidaMuro(int index, int PesoGolpe){
         for (ThreadMuro muro : muros){
             if (muro.getIndice() == index)
                 muro.ReducirVida(PesoGolpe);
         }
     }
-    public void BajarVidaPueblo(int tipoDefensa, int indice, int PesoGolpe){
+    public synchronized void BajarVidaPueblo(int tipoDefensa, int indice, int PesoGolpe){
         switch(tipoDefensa){
             //case 1: BajarVidaBomba(indice); break;
             case 2: BajarVidaTorres(indice, PesoGolpe); break;
@@ -617,7 +632,7 @@ public class ControladorVideoJuego  implements ActionListener{
         //Dar ganador
     }
     
-    public void EliminarAvion(int index){
+    public synchronized void EliminarAvion(int index){
         this.vista.EliminarAvion(index);
         int i;
         for (i = 0; i < aviones.size(); i++){
@@ -627,7 +642,7 @@ public class ControladorVideoJuego  implements ActionListener{
         this.aviones.remove(i);
     }
     
-    public void EliminarTanque(int index){
+    public synchronized void EliminarTanque(int index){
         this.vista.EliminarTanque(index);
         int i;
         for (i = 0; i < tanques.size(); i++){
@@ -637,7 +652,7 @@ public class ControladorVideoJuego  implements ActionListener{
         this.tanques.remove(i);
     }
     
-    public void EliminarCamion(int index){
+    public synchronized void EliminarCamion(int index){
         this.vista.EliminarCamion(index);
         int i;
         for (i = 0; i < carros.size(); i++){
@@ -647,7 +662,7 @@ public class ControladorVideoJuego  implements ActionListener{
         this.carros.remove(i);
     }
     
-    public void EliminarMedioAlcance(int indice){
+    public synchronized void EliminarMedioAlcance(int indice){
         this.vista.EliminarMedioAlcance(indice);
         int i;
         for (i = 0; i < medianoAlcance.size(); i++){
@@ -657,7 +672,7 @@ public class ControladorVideoJuego  implements ActionListener{
         this.medianoAlcance.remove(i);
     }
     
-    public void EliminarSoldado(int indice){
+    public synchronized void EliminarSoldado(int indice){
         this.vista.EliminarSoldado(indice);
         int i;
         for (i = 0; i < contacto.size(); i++){
@@ -667,17 +682,17 @@ public class ControladorVideoJuego  implements ActionListener{
         this.contacto.remove(i);
     }
     
-    public void CambiarLabelSoldado(int indice, ImageIcon icon){
+    public synchronized void CambiarLabelSoldado(int indice, ImageIcon icon){
         this.vista.CambiarIconSoldado(indice, icon);
     }
     
-    public void MoverSoldado(int indice, int x, int y){
+    public synchronized void MoverSoldado(int indice, int x, int y){
         this.vista.MoverSoldado(indice, x, y);
     }    
     
     //Utilizado unicamente para los soldados de contacto, es utilizado para saber el componente que se encuentra más
     //cercano al personaje del ejercito, y sabiendo esto, realizar el ataque
-    public int[] ChoqueConEnemigo(int x, int y){
+    public synchronized int[] ChoqueConEnemigo(int x, int y){
         int coordenadas[] = {0,0};
         coordenadas = VerificarCercanoPueblo.VerificarCercano(bombas, torres, cañones, aereos, mortero, x, y, Casa, muros);
         return coordenadas;
@@ -685,7 +700,7 @@ public class ControladorVideoJuego  implements ActionListener{
        
     //Verifica si una bala choca con un enemigo
     //Modo: //1: es del ejercito y ataca al pueblo///2: es del pueblo y ataca al ejercito
-    public int[] ChoqueMunicion(int index, int modo, int x, int y, int direccion){
+    public synchronized int[] ChoqueMunicion(int index, int modo, int x, int y, int direccion){
         int[] resultado = {0, 0};
         if (modo == 2){ //Del pueblo al ejercito
             resultado = VerificarChoqueMunicion.choqueConSoldados(x, y, this.contacto, direccion);
@@ -724,7 +739,7 @@ public class ControladorVideoJuego  implements ActionListener{
     }
     
     //Elimina el componente del pueblo cuando su vida es cero
-    public void EliminarComponentePueblo(int tipoDefensa, int index){
+    public synchronized void EliminarComponentePueblo(int tipoDefensa, int index){
         //1= bomba, 2 = torres, 3 = cañones, 4 = aereos, 5 = morteros
         int contador = 0;
         if (tipoDefensa == 1){
@@ -791,13 +806,13 @@ public class ControladorVideoJuego  implements ActionListener{
     
     //Verifica si hay algun enemigo en la mira, esto solo es válido cuando está a una distancia correspondiente
     //y ademas cumple con las 8 direcciones básicas: NORTE, SUR, ESTE, OESTE, NOR-ESTE, NOR-OESTE, SUR-ESTE, SUR-OESTE
-    public int[] EnemigoEnMira(int x, int y, int alcance, int direccion){
+    public synchronized int[] EnemigoEnMira(int x, int y, int alcance, int direccion){
         int[] enemigo = {0, 0, 0};
         enemigo = VerificarEnemigoMira.VerificarEnemigoEnMira(direccion, x, y, alcance, torres, cañones, aereos, mortero, Casa, muros);
         return enemigo;
     }
     
-    private void BajarVidaSoldado(int indice, int pesoGolpe){
+    private synchronized void BajarVidaSoldado(int indice, int pesoGolpe){
         for (ThreadSoldado soldier : contacto){
             if (soldier.GetIndice() == indice){
                 soldier.ReducirVida(pesoGolpe);
@@ -806,7 +821,7 @@ public class ControladorVideoJuego  implements ActionListener{
         }
     }
     
-    private void BajarVidaMedioAlcance(int indice, int pesoGolpe){
+    private synchronized void BajarVidaMedioAlcance(int indice, int pesoGolpe){
         for (ThreadMedioAlcance AlcanceMid : medianoAlcance){
             if (AlcanceMid.GetIndice() == indice){
                 AlcanceMid.ReducirVida(pesoGolpe);
@@ -814,7 +829,7 @@ public class ControladorVideoJuego  implements ActionListener{
             }
         }
     }
-    private void BajarVidaCamion(int indice, int pesoGolpe){
+    private synchronized void BajarVidaCamion(int indice, int pesoGolpe){
         for (ThreadCamion carro : carros){
             if (carro.GetIndice() == indice){
                 carro.ReducirVida(pesoGolpe);
@@ -822,7 +837,7 @@ public class ControladorVideoJuego  implements ActionListener{
             }
         }
     }
-    private void BajarVidaTanque(int indice, int pesoGolpe){
+    private synchronized void BajarVidaTanque(int indice, int pesoGolpe){
         for (ThreadTanque tanque : tanques){
             if (tanque.GetIndice() == indice){
                 tanque.ReducirVida(pesoGolpe);
@@ -830,7 +845,7 @@ public class ControladorVideoJuego  implements ActionListener{
             }
         }
     }
-    private void BajarVidaAvion(int indice, int pesoGolpe){
+    private synchronized void BajarVidaAvion(int indice, int pesoGolpe){
         for (ThreadAviones avion : aviones){
             if (avion.GetIndice() == indice){
                 avion.ReducirVida(pesoGolpe);
@@ -840,7 +855,7 @@ public class ControladorVideoJuego  implements ActionListener{
     }
     
     //Baja la vida del objeto con que colisiona
-    public void BajarVidaMunicion(int index, int grupo, int indice, int pesoGolpe){
+    public synchronized void BajarVidaMunicion(int index, int grupo, int indice, int pesoGolpe){
         switch(grupo){
             case 1: BajarVidaSoldado(indice, pesoGolpe); break;
             case 2: BajarVidaMedioAlcance(indice, pesoGolpe); break;
@@ -858,7 +873,7 @@ public class ControladorVideoJuego  implements ActionListener{
     }
     
     //Eliminar la municion de pantalla
-    public void EliminarMunicion(int index){
+    public synchronized void EliminarMunicion(int index){
         int i;
         for(i = 0; i < bombas.size(); i++){
             if (bombas.get(index).GetIndice() == index)
@@ -870,22 +885,22 @@ public class ControladorVideoJuego  implements ActionListener{
     }
     
     //Mueve la municion del que disparo 
-    public void moverMunicion(int indice,int x,int y){
+    public synchronized void moverMunicion(int indice,int x,int y){
         this.vista.avanzarBala(indice, x, y);
     }
     
     //Verifica que si debe explotar una bomba
-    public boolean explotarBomba(int indice, int x, int y){
+    public synchronized boolean explotarBomba(int indice, int x, int y){
         return true;
     }
     
     //Cambia el icono del label que representa a la bomba
-    public void CambiarLabelBomba(int indice, ImageIcon explosion){
+    public synchronized void CambiarLabelBomba(int indice, ImageIcon explosion){
         this.vista.CambiarBomba(explosion, indice);
     }
     
     //Reduce una vida al ejercito cuando explota una bomba (para reducir la vida debe estar dentro del rango
-    public void ReducirVidaejercito(int x,int y,int alcance){
+    public synchronized void ReducirVidaejercito(int x,int y,int alcance){
         for (ThreadSoldado soldado : contacto){
             if (x + alcance >= soldado.getX() && x - alcance <= soldado.getX() && y - alcance <= soldado.getY() && y + alcance >= soldado.getY()){
                 soldado.ReducirVida(1);
@@ -914,18 +929,18 @@ public class ControladorVideoJuego  implements ActionListener{
     }
     
     //Elimina la bomba que explota
-    public void EliminarBomba(int indice){
+    public synchronized void EliminarBomba(int indice){
         this.vista.EliminarBomba(indice);
     }
     
     //Verifica si debe realizar un disparo a un enemigo y en caso de que deba realizar el disparo, devuelve
     //la direccion a la cual debe disparar, en caso de que no tenga enemigos en mira, devuelve un cero
-    public int RealizarDisparoPueblo(int indice, int x, int y, int TipoDefensa){
+    public synchronized int RealizarDisparoPueblo(int indice, int x, int y, int TipoDefensa){
         return VerificarAtaque.VerificarPosibleAtaque(x, y, TipoDefensa, aviones, contacto, medianoAlcance, tanques, carros);
     }
     
     //Crea una nueva bala
-    public void RealizarDisparo(int x,int y,int pesoGolpe,int direccion, ImageIcon municion, int modo){
+    public synchronized void RealizarDisparo(int x,int y,int pesoGolpe,int direccion, ImageIcon municion, int modo){
          //modo     1: es del ejercito y ataca al pueblo///2: es del pueblo y ataca al ejercito
         int indice = this.vista.crearBala(municion, x, y);
         ThreadMunicion nuevo = new ThreadMunicion(direccion, x, y, indice, pesoGolpe, modo, this);

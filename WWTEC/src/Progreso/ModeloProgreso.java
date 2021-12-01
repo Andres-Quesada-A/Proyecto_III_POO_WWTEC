@@ -77,7 +77,9 @@ public class ModeloProgreso {
             }
         }
         
-        
+        if (nivel > 10){
+            nivel = 10;
+        }
         recuperado.juegoUsuario.setDistribuccionMuro(distribuccionMuro.GetDistribuccion(nivel));
         recuperado.juegoUsuario.setDistribuccionBombas(distribuccionPueblo.GetBombas(nivel));
         recuperado.juegoUsuario.setDistribuccionTorres(distribuccionPueblo.GetTorres(nivel));

@@ -107,6 +107,7 @@ public class VistaProgreso extends javax.swing.JFrame {
         ControladorVideoJuego controlador = new ControladorVideoJuego(vista, modelo);
         controlador.ShowView();
         controlador.IniciarNormal(PATH);
+        this.dispose();
     }
     
     public void cargarNiveles(){

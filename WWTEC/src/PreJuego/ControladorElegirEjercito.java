@@ -98,7 +98,7 @@ public class ControladorElegirEjercito implements ActionListener{
     //"Nivel de aparición","Costo","Fuerza de golpe", "Arma"};
     //{vida, cantidadGolpes, nivel, Campos, NivelAparicion, costo, fuerza};
     private void botonElegirAction(){
-        if (Integer.parseInt(vista.GetTexto(5)) <= Integer.parseInt(this.modelo.GetCampos())){
+        if (Integer.parseInt(vista.GetTexto(5)) <= Campos){
             if (Integer.parseInt(this.vista.GetTexto(6)) <= this.modelo.GetNivelUsuario()){
                 if (Integer.parseInt(this.vista.GetTexto(7)) <= this.modelo.ObtenerDinero()){
                     int [] datos = new int[7];

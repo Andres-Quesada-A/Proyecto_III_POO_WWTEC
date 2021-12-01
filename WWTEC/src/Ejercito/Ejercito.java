@@ -102,5 +102,10 @@ public class Ejercito implements Serializable{
         this.Fuerza = Fuerza;
     }
     
+    public void Mejorar(int mejoramiento){
+        this.Vida = Vida + (Vida / 100 * (mejoramiento));
+        this.CantidadGolpes = CantidadGolpes + (CantidadGolpes / 100 * (mejoramiento));
+        this.Fuerza = Fuerza + (Fuerza / 100 * (mejoramiento));
+    }
     
 }

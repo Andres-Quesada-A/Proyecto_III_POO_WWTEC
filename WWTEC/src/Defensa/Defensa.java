@@ -59,8 +59,10 @@ public class Defensa implements Serializable{
     }
     
     //Se utilzará cuando se avance de nivel dentro del juego... 
-    public void AumentarNivel(){
-        
+    public void AumentarNivel(int mejoramiento){
+        this.vida = vida + (vida / 100 * (mejoramiento));
+        this.FrecuenciaDisparo = FrecuenciaDisparo + (FrecuenciaDisparo / 100 * (mejoramiento));
+        this.fuerzaGolpe = fuerzaGolpe + (fuerzaGolpe / 100 * (mejoramiento));
     }
 
     public int getFrecuenciaDisparo() {

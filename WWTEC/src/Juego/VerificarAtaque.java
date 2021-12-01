@@ -151,69 +151,6 @@ public class VerificarAtaque {
         }
         
         
-        //1 = norte, 2 = sur, 3 = este, 4 = oeste, 5 = nor-este, 6= nor-oeste, 7 = sur-este, 8 = sur-oeste
-        //ESTE
-        AuxX = x;
-        AuxY = y;
-        while (AuxX < ANCHO && AuxX >= 0 && AuxY >= 0 && AuxY < LARGO){
-            if (TipoDefensa == 4){
-                for (ThreadAviones avion : aviones) {
-                    if (AuxX >= avion.getX() && AuxX < (avion.getX() + 60) && AuxY >= avion.getY() && AuxY < (avion.getY() + 60))
-                        return 3;
-                }
-            }else{
-                for (ThreadSoldado contact: contacto){
-                    if (AuxX >= contact.getX() && AuxX < (contact.getX() + 30) && AuxY >= contact.getY() && AuxY < (contact.getY() + 30))
-                        return 3;
-                }
-                for (ThreadMedioAlcance MidAlcance: medianoAlcance){
-                    if (AuxX >= MidAlcance.getX() && AuxX < (MidAlcance.getX() + 30) && AuxY >= MidAlcance.getY() && AuxY < (MidAlcance.getY() + 30))
-                        return 3;
-                }
-                for (ThreadTanque tanque: tanques){
-                    if (AuxX >= tanque.getX() && AuxX < (tanque.getX() + 90) && AuxY >= tanque.getY() && AuxY < (tanque.getY() + 60))
-                        return 3;
-                }
-                for (ThreadCamion carro: carros){
-                    if (AuxX >= carro.getX() && AuxX < (carro.getX() + 100) && AuxY >= carro.getY() && AuxY < (carro.getY() + 60))
-                        return 3;
-                }
-            }
-            AuxX--;
-        }
-        
-        
-        //1 = norte, 2 = sur, 3 = este, 4 = oeste, 5 = nor-este, 6= nor-oeste, 7 = sur-este, 8 = sur-oeste
-        //OESTE
-        AuxX = x;
-        AuxY = y;
-        while (AuxX < ANCHO && AuxX >= 0 && AuxY >= 0 && AuxY < LARGO){
-            if (TipoDefensa == 4){
-                for (ThreadAviones avion : aviones) {
-                    if (AuxX >= avion.getX() && AuxX < (avion.getX() + 60) && AuxY >= avion.getY() && AuxY < (avion.getY() + 60))
-                        return 4;
-                }
-            }else{
-                for (ThreadSoldado contact: contacto){
-                    if (AuxX >= contact.getX() && AuxX < (contact.getX() + 30) && AuxY >= contact.getY() && AuxY < (contact.getY() + 30))
-                        return 4;
-                }
-                for (ThreadMedioAlcance MidAlcance: medianoAlcance){
-                    if (AuxX >= MidAlcance.getX() && AuxX < (MidAlcance.getX() + 30) && AuxY >= MidAlcance.getY() && AuxY < (MidAlcance.getY() + 30))
-                        return 4;
-                }
-                for (ThreadTanque tanque: tanques){
-                    if (AuxX >= tanque.getX() && AuxX < (tanque.getX() + 90) && AuxY >= tanque.getY() && AuxY < (tanque.getY() + 60))
-                        return 4;
-                }
-                for (ThreadCamion carro: carros){
-                    if (AuxX >= carro.getX() && AuxX < (carro.getX() + 100) && AuxY >= carro.getY() && AuxY < (carro.getY() + 60))
-                        return 4;
-                }
-            }
-            AuxX++;
-        }
-        
         
         //1 = norte, 2 = sur, 3 = este, 4 = oeste, 5 = nor-este, 6= nor-oeste, 7 = sur-este, 8 = sur-oeste
         //NOR-ESTE

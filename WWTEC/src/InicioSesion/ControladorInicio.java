@@ -124,6 +124,7 @@ public class ControladorInicio implements ActionListener{
         ModeloElegirEjercito modelo = new ModeloElegirEjercito(user, password);
         ControladorElegirEjercito controller = new ControladorElegirEjercito(modelo, vista);
         controller.ShowView();
+        this.vista.dispose();
     }
     
     @Override

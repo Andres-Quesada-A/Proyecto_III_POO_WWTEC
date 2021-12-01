@@ -12,6 +12,7 @@ import InicioSesion.VistaInicio;
 import Juego.*;
 import PartidasJugador.PartidaUsuario;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -28,9 +29,5 @@ public class WWTEC {
         ControladorInicio controller = new ControladorInicio(vista, modelo);
         controller.ShowView();
 
-//        VistaVideoJuego vista = new VistaVideoJuego();
-//        ModeloVideoJuego modelo = new ModeloVideoJuego();
-//        ControladorVideoJuego controller = new ControladorVideoJuego(vista, modelo);
-//        controller.ShowView();
     }
 }
